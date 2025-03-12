@@ -1,0 +1,544 @@
+/* Font Family - Apple System Font */
+@font-face {
+  font-family: 'SF Pro Text';
+  src: local('SF Pro Text'), local('SFProText-Regular'),
+       local('-apple-system'), local('BlinkMacSystemFont');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Pro Text';
+  src: local('SF Pro Text Bold'), local('SFProText-Bold'),
+       local('-apple-system'), local('BlinkMacSystemFont');
+  font-weight: bold;
+  font-style: normal;
+}
+
+:root {
+  /* Light mode variables */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --light-shadow: rgba(255, 255, 255, 0.8);
+  --bg-color: #e6e7ee;
+  --card-bg-color: #e6e7ee;
+  --text-color: #44476a;
+  --primary-color: #5e72e4;
+  --success-color: #2dce89;
+  --warning-color: #fb6340;
+  --online-color: #2dce89;
+  --offline-color: #fb6340;
+  --muted-color: #8898aa;
+  
+  /* Transition timing - exactly 0.1 seconds */
+  --transition-speed: 0.1s;
+
+  /* Date picker icon filter */
+  --calendar-icon-filter: none;
+}
+
+/* Dark mode variables */
+[data-theme="dark"] {
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --light-shadow: rgba(255, 255, 255, 0.1);
+  --bg-color: #1a202c;
+  --card-bg-color: #2d3748;
+  --text-color: #e2e8f0;
+  --primary-color: #7f9cf5;
+  --success-color: #48bb78;
+  --warning-color: #ed8936;
+  --online-color: #48bb78;
+  --offline-color: #ed8936;
+  --muted-color: #a0aec0;
+
+  /* Date picker icon filter */
+  --calendar-icon-filter: invert(1);
+}
+
+/* Reset all transitions first */
+* {
+  transition: none;
+}
+
+/* Apply specific transitions */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--transition-speed) ease, 
+              color var(--transition-speed) ease;
+}
+
+/* Neumorphism Styles */
+.neumorph {
+  background: var(--card-bg-color);
+  box-shadow: 
+    5px 5px 10px var(--shadow-color),
+    -5px -5px 10px var(--light-shadow);
+  transition: background-color var(--transition-speed) ease, 
+              box-shadow var(--transition-speed) ease;
+}
+
+.neumorph-inset {
+  background: var(--card-bg-color);
+  box-shadow: 
+    inset 3px 3px 7px var(--shadow-color),
+    inset -3px -3px 7px var(--light-shadow);
+  transition: background-color var(--transition-speed) ease, 
+              box-shadow var(--transition-speed) ease;
+}
+
+.neumorph-btn {
+  background: var(--card-bg-color);
+  box-shadow: 
+    3px 3px 6px var(--shadow-color),
+    -3px -3px 6px var(--light-shadow);
+  color: var(--text-color);
+  transition: background-color var(--transition-speed) ease, 
+              box-shadow var(--transition-speed) ease,
+              color var(--transition-speed) ease;
+}
+
+.neumorph-btn:hover {
+  box-shadow: 
+    4px 4px 8px var(--shadow-color),
+    -4px -4px 8px var(--light-shadow);
+}
+
+.neumorph-btn:active, .neumorph-btn-active {
+  box-shadow: 
+    inset 2px 2px 5px var(--shadow-color),
+    inset -2px -2px 5px var(--light-shadow);
+}
+
+.neumorph-checkbox {
+  background: var(--card-bg-color);
+  box-shadow: 
+    inset 2px 2px 5px var(--shadow-color),
+    inset -2px -2px 5px var(--light-shadow);
+  position: relative;
+  transition: background-color var(--transition-speed) ease, 
+              box-shadow var(--transition-speed) ease;
+}
+
+.neumorph-checkbox.checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--success-color);
+  font-weight: bold;
+  transition: color var(--transition-speed) ease;
+}
+
+/* Category Pills - Explicit 0.1s transition */
+.task-category {
+  background-color: rgba(94, 114, 228, 0.1);
+  color: var(--primary-color);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: color var(--transition-speed) ease, 
+              background-color var(--transition-speed) ease;
+}
+
+.task-category[data-category="daily"] {
+  background-color: rgba(94, 114, 228, 0.1);
+  color: var(--primary-color);
+}
+
+.task-category[data-category="weekly"] {
+  background-color: rgba(45, 206, 137, 0.1);
+  color: var(--success-color);
+}
+
+.task-category[data-category="monthly"] {
+  background-color: rgba(251, 99, 64, 0.1);
+  color: var(--warning-color);
+}
+
+/* Completed Task */
+.task-item.completed .task-title {
+  text-decoration: line-through;
+  color: var(--muted-color);
+  transition: color var(--transition-speed) ease;
+}
+
+.task-item.completed .task-description {
+  color: var(--muted-color);
+  transition: color var(--transition-speed) ease;
+}
+
+/* Due date - Explicit 0.1s transition */
+.task-due-date {
+  color: var(--text-color);
+  transition: color var(--transition-speed) ease;
+}
+
+/* Add task button - Explicit 0.1s transition */
+button[type="submit"] {
+  color: var(--text-color);
+  background-color: var(--card-bg-color);
+  transition: color var(--transition-speed) ease,
+              background-color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+
+/* Connection Status */
+.connection-status {
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  transition: color var(--transition-speed) ease;
+}
+
+.connection-status.online {
+  color: var(--online-color);
+}
+
+.connection-status.offline {
+  color: var(--offline-color);
+}
+
+.connection-status-icon {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+  transition: background-color var(--transition-speed) ease;
+}
+
+.connection-status-icon.online {
+  background-color: var(--online-color);
+}
+
+.connection-status-icon.offline {
+  background-color: var(--offline-color);
+}
+
+/* Enhanced Dark Mode Toggle */
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 60px;
+  height: 30px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.theme-toggle-track {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--card-bg-color);
+  box-shadow: 
+    inset 2px 2px 5px var(--shadow-color),
+    inset -2px -2px 5px var(--light-shadow);
+  border-radius: 15px;
+  transition: background-color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+
+.theme-toggle-thumb {
+  position: absolute;
+  left: 5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--card-bg-color);
+  box-shadow: 
+    2px 2px 5px var(--shadow-color),
+    -2px -2px 5px var(--light-shadow);
+  transition: transform var(--transition-speed) ease, 
+              background-color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Sun and moon icons using CSS */
+.theme-toggle-thumb::before {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  transition: all var(--transition-speed) ease;
+}
+
+/* Light mode icon (sun) */
+[data-theme="light"] .theme-toggle-thumb::before {
+  box-shadow: 0 0 5px var(--primary-color);
+}
+
+/* Dark mode icon (moon) */
+[data-theme="dark"] .theme-toggle-thumb {
+  transform: translateX(30px);
+}
+
+[data-theme="dark"] .theme-toggle-thumb::before {
+  background: transparent;
+  box-shadow: 3px -3px 0 var(--primary-color);
+  transform: rotate(45deg) scale(0.8);
+}
+
+/* Light/dark indicators on track */
+.theme-toggle-track::before,
+.theme-toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  background: var(--muted-color);
+  opacity: 0.5;
+  transition: opacity var(--transition-speed) ease;
+}
+
+.theme-toggle-track::before {
+  left: 12px;
+  opacity: 0.8;
+}
+
+.theme-toggle-track::after {
+  right: 12px;
+  opacity: 0.3;
+}
+
+[data-theme="dark"] .theme-toggle-track::before {
+  opacity: 0.3;
+}
+
+[data-theme="dark"] .theme-toggle-track::after {
+  opacity: 0.8;
+}
+
+/* Hover effect */
+.theme-toggle:hover .theme-toggle-thumb {
+  box-shadow: 
+    3px 3px 6px var(--shadow-color),
+    -3px -3px 6px var(--light-shadow);
+}
+
+/* Make the dark mode toggle responsive */
+@media (max-width: 768px) {
+  .theme-toggle {
+    top: 10px;
+    right: 10px;
+    width: 50px;
+    height: 26px;
+  }
+  
+  .theme-toggle-thumb {
+    width: 18px;
+    height: 18px;
+  }
+  
+  [data-theme="dark"] .theme-toggle-thumb {
+    transform: translateX(24px);
+  }
+}
+
+/* Form elements */
+input, textarea, select {
+  color: var(--text-color) !important;
+  background-color: var(--card-bg-color) !important;
+  transition: color var(--transition-speed) ease,
+              background-color var(--transition-speed) ease;
+}
+
+::placeholder {
+  color: var(--muted-color) !important;
+  opacity: 0.7;
+  transition: color var(--transition-speed) ease;
+}
+
+/* Headings and text */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-color);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: color var(--transition-speed) ease;
+}
+
+/* All text elements */
+p, span, div, label {
+  transition: color var(--transition-speed) ease;
+}
+
+/* Remove the yellow bar from offline tasks */
+.offline-task {
+  border-left: none !important;
+}
+
+/* Adjust text colors for dark mode */
+[data-theme="dark"] .text-gray-700 {
+  color: #e2e8f0 !important;
+}
+
+[data-theme="dark"] .text-gray-600 {
+  color: #cbd5e0 !important;
+}
+
+[data-theme="dark"] .text-gray-500 {
+  color: #a0aec0 !important;
+}
+
+/* Improve dark mode form elements */
+[data-theme="dark"] input, 
+[data-theme="dark"] textarea, 
+[data-theme="dark"] select {
+  color: #e2e8f0 !important;
+}
+
+[data-theme="dark"] ::placeholder {
+  color: #a0aec0 !important;
+}
+
+/* Remove any custom date picker styles we added */
+input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--card-bg-color) !important;
+  color: var(--text-color) !important;
+  border: none;
+  outline: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  width: 100%;
+  transition: color var(--transition-speed) ease,
+              background-color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+
+/* Reset calendar icon styling */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+/* Remove any custom date field styling */
+::-webkit-datetime-edit,
+::-webkit-datetime-edit-fields-wrapper,
+::-webkit-datetime-edit-text,
+::-webkit-datetime-edit-month-field,
+::-webkit-datetime-edit-day-field,
+::-webkit-datetime-edit-year-field {
+  color: var(--text-color);
+}
+
+/* Keep the basic neumorphic styling from the original design */
+input[type="date"].neumorph-inset {
+  box-shadow: 
+    inset 3px 3px 7px var(--shadow-color),
+    inset -3px -3px 7px var(--light-shadow);
+}
+
+/* Custom styling for the date selection dropdown */
+::-webkit-datetime-edit {
+  color: var(--text-color);
+  transition: color var(--transition-speed) ease;
+}
+
+::-webkit-datetime-edit-fields-wrapper {
+  color: var(--text-color);
+}
+
+::-webkit-datetime-edit-text {
+  color: var(--text-color);
+  opacity: 0.8;
+}
+
+::-webkit-datetime-edit-month-field,
+::-webkit-datetime-edit-day-field,
+::-webkit-datetime-edit-year-field {
+  color: var(--text-color);
+}
+
+::-webkit-inner-spin-button {
+  display: none;
+}
+
+/* Make select element match date input */
+select {
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--card-bg-color) !important;
+  color: var(--text-color) !important;
+  border: none;
+  outline: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  box-shadow: 
+    inset 3px 3px 7px var(--shadow-color),
+    inset -3px -3px 7px var(--light-shadow);
+  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  width: 100%;
+  transition: color var(--transition-speed) ease,
+              background-color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  background-size: 16px !important;
+}
+
+[data-theme="dark"] select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+}
+
+/* Select focus and hover states */
+select:focus {
+  box-shadow: 
+    inset 4px 4px 8px var(--shadow-color),
+    inset -4px -4px 8px var(--light-shadow);
+}
+
+select:hover {
+  box-shadow: 
+    inset 3px 3px 6px var(--shadow-color),
+    inset -3px -3px 6px var(--light-shadow);
+}
+
+/* Custom date picker container */
+.date-picker-container {
+  position: relative;
+  width: 100%;
+}
+
+.date-picker-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--text-color);
+  transition: color var(--transition-speed) ease;
+}
+
+/* Date icon overlay for better UX */
+.date-picker-container::after {
+  content: '📅';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 16px;
+  opacity: 0;
+  /* Hide the emoji icon since we're using the browser's calendar icon */
+} 

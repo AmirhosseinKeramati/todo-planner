@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neumorphic Todo App</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Preload system fonts -->
+    <link rel="preload" as="font" href="data:font/woff2;base64," crossorigin>
+</head>
+<body class="min-h-screen p-6">
+    <!-- Dark Mode Toggle -->
+    <div class="theme-toggle" id="theme-toggle">
+        <div class="theme-toggle-track"></div>
+        <div class="theme-toggle-thumb">☀️</div>
+    </div>
+
+    <div class="container mx-auto max-w-4xl">
+        <div class="neumorph p-8 rounded-2xl">
+            <h1 class="text-3xl font-bold mb-6 text-center">My Todo Planner</h1>
+            
+            <!-- Connection status will be inserted here by JavaScript -->
+            
+            <!-- Task Input Form -->
+            <div class="neumorph-inset p-6 rounded-xl mb-8">
+                <h2 class="text-xl font-semibold mb-4">Add New Task</h2>
+                <form id="task-form" class="space-y-4">
+                    <div>
+                        <input type="text" id="task-title" placeholder="Task title" required
+                            class="neumorph-inset w-full p-3 rounded-lg focus:outline-none">
+                    </div>
+                    <div>
+                        <textarea id="task-description" placeholder="Description (optional)"
+                            class="neumorph-inset w-full p-3 rounded-lg focus:outline-none"></textarea>
+                    </div>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-gray-600 mb-1">Due Date</label>
+                            <input type="date" id="task-due-date"
+                                class="neumorph-inset w-full p-3 rounded-lg bg-gray-100 text-gray-700 focus:outline-none">
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-gray-600 mb-1">Category</label>
+                            <select id="task-category"
+                                class="neumorph-inset w-full p-3 rounded-lg bg-gray-100 text-gray-700 focus:outline-none">
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weekly</option>
+                                <option value="monthly">Monthly</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit"
+                        class="neumorph-btn w-full py-3 px-6 rounded-lg text-gray-700 font-medium hover:shadow-inner transition-all">
+                        Add Task
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Task Filter -->
+            <div class="flex justify-center mb-8">
+                <div class="neumorph-inset p-1 rounded-lg inline-flex">
+                    <button class="category-filter neumorph-btn-active py-2 px-4 rounded-lg" data-category="all">
+                        All
+                    </button>
+                    <button class="category-filter py-2 px-4 rounded-lg" data-category="daily">
+                        Daily
+                    </button>
+                    <button class="category-filter py-2 px-4 rounded-lg" data-category="weekly">
+                        Weekly
+                    </button>
+                    <button class="category-filter py-2 px-4 rounded-lg" data-category="monthly">
+                        Monthly
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Task Lists -->
+            <div id="task-container" class="space-y-6">
+                <div class="neumorph-inset p-4 rounded-xl">
+                    <h2 class="text-xl font-semibold text-gray-700 mb-4 flex items-center">
+                        <span>Tasks</span>
+                        <span class="ml-auto text-sm font-normal text-gray-500">Showing: <span id="current-filter">All</span></span>
+                    </h2>
+                    <div id="tasks-list" class="space-y-3">
+                        <!-- Tasks will be added here dynamically -->
+                        <div class="text-center text-gray-500 py-4">No tasks yet. Add one above!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Template -->
+    <template id="task-template">
+        <div class="task-item neumorph p-4 rounded-lg" data-id="">
+            <div class="flex items-start">
+                <div class="flex-shrink-0 pt-1">
+                    <div class="task-checkbox neumorph-checkbox rounded-md w-6 h-6 cursor-pointer"></div>
+                </div>
+                <div class="ml-3 flex-1">
+                    <div class="flex items-center">
+                        <h3 class="task-title text-lg font-medium text-gray-700"></h3>
+                        <span class="task-category ml-2 text-xs px-2 py-1 rounded-full"></span>
+                    </div>
+                    <p class="task-description text-gray-600 mt-1"></p>
+                    <div class="flex items-center mt-2 text-sm text-gray-500">
+                        <span class="task-due-date"></span>
+                    </div>
+                </div>
+                <button class="delete-task ml-2 neumorph-btn p-2 rounded-lg hover:text-red-500 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </template>
+
+    <script src="js/main.js"></script>
+</body>
+</html> 

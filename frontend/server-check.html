@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Connection Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #cccccc;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Server Connection Checker</h1>
+    <p>This tool helps diagnose connection issues with your backend server.</p>
+    
+    <div>
+        <label for="server-url">Server URL:</label>
+        <input type="text" id="server-url" value="http://localhost:5000" style="width: 250px; padding: 5px;">
+        <button id="check-button">Check Connection</button>
+    </div>
+    
+    <h2>Results:</h2>
+    <div id="results"></div>
+    
+    <h2>Troubleshooting Steps:</h2>
+    <ol>
+        <li>Make sure your backend server is running</li>
+        <li>Check if the port is correct (default is 5000)</li>
+        <li>Ensure no firewall is blocking the connection</li>
+        <li>Try using 127.0.0.1 instead of localhost</li>
+        <li>Check if the server is configured to listen on all interfaces (host='0.0.0.0')</li>
+    </ol>
+    
+    <script>
+        document.getElementById('check-button').addEventListener('click', async function() {
+            const button = this;
+            const resultsDiv = document.getElementById('results');
+            const serverUrl = document.getElementById('server-url').value.trim();
+            
+            button.disabled = true;
+            resultsDiv.innerHTML = '<div class="result pending">Testing connection...</div>';
+            
+            try {
+                // Test basic connection
+                const startTime = performance.now();
+                const response = await fetch(`${serverUrl}/tasks`, {
+                    signal: AbortSignal.timeout(5000)
+                });
+                const endTime = performance.now();
+                const responseTime = (endTime - startTime).toFixed(2);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultsDiv.innerHTML = `
+                        <div class="result success">
+                            ✅ Connection successful!<br>
+                            Response time: ${responseTime}ms<br>
+                            Status: ${response.status} ${response.statusText}<br>
+                            Content-Type: ${response.headers.get('content-type')}<br>
+                            Data received: ${data.length} items
+                        </div>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="result error">
+                            ⚠️ Server responded with an error.<br>
+                            Status: ${response.status} ${response.statusText}<br>
+                            Response time: ${responseTime}ms
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="result error">
+                        ❌ Connection failed: ${error.message}<br><br>
+                        <strong>Possible causes:</strong><br>
+                        - Server is not running<br>
+                        - Incorrect URL or port<br>
+                        - Firewall blocking the connection<br>
+                        - CORS issues (if applicable)<br>
+                        - Network connectivity problems
+                    </div>
+                `;
+            } finally {
+                button.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html> 
